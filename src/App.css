@@ -1,0 +1,44 @@
+@import "tailwindcss";
+
+@theme {
+  --font-mono: 'Fira Code', 'Courier New', monospace;
+}
+
+:root {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #000;
+  color: #00ff41; /* Hijau Neon Termux */
+  font-family: var(--font-mono);
+  margin: 0;
+  overflow: hidden; /* Scroll diatur di container terminal */
+}
+
+.scanline {
+  width: 100%;
+  height: 2px;
+  background: rgba(0, 255, 0, 0.05);
+  position: fixed;
+  top: 0;
+  z-index: 100;
+  pointer-events: none;
+  animation: scanline 6s linear infinite;
+}
+
+@keyframes scanline {
+  0% { top: 0; }
+  100% { top: 100%; }
+}
+
+/* Custom Scrollbar biar gak ngerusak Vibe */
+.custom-scroll::-webkit-scrollbar {
+  width: 5px;
+}
+.custom-scroll::-webkit-scrollbar-track {
+  background: #000;
+}
+.custom-scroll::-webkit-scrollbar-thumb {
+  background: #004411;
+}
