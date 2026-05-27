@@ -12,7 +12,6 @@ import ExperienceLog from './components/Apps/ExperienceLog';
 import MediumRSS from './components/Apps/MediumRSS';
 import WallpaperApp from './components/Apps/WallpaperApp';
 import WhoAmI from './components/Apps/WhoAmI';
-import NetworkMap from './components/Apps/NetworkMap';
 import CTFLog from './components/Apps/CTFLog';
 import TerminalLive from './components/Apps/TerminalLive';
 import Arcade from './components/Apps/Arcade';
@@ -33,7 +32,6 @@ function App() {
     medium:     { isOpen: false, isMaximized: false, isMinimized: false, zIndex: 10 },
     wallpaper:  { isOpen: false, isMaximized: false, isMinimized: false, zIndex: 10 },
     whoami:     { isOpen: false, isMaximized: false, isMinimized: false, zIndex: 10 },
-    network:    { isOpen: false, isMaximized: false, isMinimized: false, zIndex: 10 },
     ctf:        { isOpen: false, isMaximized: false, isMinimized: false, zIndex: 10 },
     terminal:   { isOpen: false, isMaximized: false, isMinimized: false, zIndex: 10 },
     arcade:     { isOpen: false, isMaximized: false, isMinimized: false, zIndex: 10 },
@@ -207,18 +205,6 @@ function App() {
           />
         )}
 
-          {/* 10. Network Map */}
-        {apps.network.isOpen && !apps.network.isMinimized && (
-          <NetworkMap
-            zIndex={apps.network.zIndex}
-            onFocus={() => bringToFront('network')}
-            isMaximized={apps.network.isMaximized}
-            toggleMax={() => updateApp('network', 'isMaximized', !apps.network.isMaximized)}
-            minimize={() => updateApp('network', 'isMinimized', true)}
-            close={() => updateApp('network', 'isOpen', false)}
-          />
-        )}
-      
        {/* 10. CTF Log */}
         {apps.ctf.isOpen && !apps.ctf.isMinimized && (
           <CTFLog

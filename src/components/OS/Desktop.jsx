@@ -10,7 +10,6 @@ export default function Desktop({ toggleApp }) {
     { id: 'medium',     name: 'MEDIUM.RSS',         icon: '📝', color: 'bg-black text-white' },
     { id: 'wallpaper',  name: 'WALLPAPER.SH',       icon: '🖼️', color: 'bg-sky-700' },
     { id: 'whoami',      name: 'WHOAMI.EXE',         icon: '👤', color: 'bg-green-700' },
-    { id: 'network',     name: 'NETWORK_MAP.NET',    icon: '🌐', color: 'bg-purple-700' },
     { id: 'ctf',         name: 'CTFLOG.TXT',        icon: '🎯', color: 'bg-red-700' },
     { id: 'terminal',    name: 'TERMINAL.LIVE',      icon: '💻', color: 'bg-gray-700' },
     { id: 'arcade',      name: 'ARCADE.GAME',        icon: '🕹️', color: 'bg-green-700' },

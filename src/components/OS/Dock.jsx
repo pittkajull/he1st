@@ -12,7 +12,6 @@ export default function Dock({ apps, toggleApp, isHidden }) {
     { id: 'medium',    icon: '📝', label: 'Medium',      color: 'bg-black text-white' },
     { id: 'wallpaper', icon: '🖼️', label: 'Wallpaper',   color: 'bg-sky-700' },
     { id: 'whoami',    icon: '👤', label: 'WhoAmI',      color: 'bg-green-700' },
-    { id: 'network',   icon: '🌐', label: 'Network Map', color: 'bg-purple-700' },
     { id: 'ctf',       icon: '🎯', label: 'CTF Log',     color: 'bg-red-700' },
     { id: 'terminal',   icon: '💻', label: 'Terminal',    color: 'bg-gray-700' },
     { id: 'arcade',     icon: '🕹️', label: 'arcade',      color: 'bg-green-700' },

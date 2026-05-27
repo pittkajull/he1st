@@ -153,7 +153,6 @@ Tech Stack:
 Featured Projects:
 [1] This portfolio — OS-themed personal site
 [2] CTF Writeups — JWT Token Forgery
-[3] Network Map — Interactive skill visualization
 
 Source: github.com/he1st`,
 
