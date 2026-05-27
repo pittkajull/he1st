@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState } from 'react';
 import Draggable from 'react-draggable';
 
 const skills = [
@@ -136,30 +136,20 @@ const certificates = [
   },
 ];
 
-function SkillBar({ name, level, desc, color }) {
-  const [width, setWidth] = useState(0);
-  useEffect(() => {
-    const t = setTimeout(() => setWidth(level), 200);
-    return () => clearTimeout(t);
-  }, [level]);
-
+function SkillItem({ name, desc, color }) {
   return (
-    <div className="group">
-      <div className="flex justify-between items-center mb-1">
+    <div className="group flex items-center gap-2 py-1.5">
+      <span className={`w-1.5 h-1.5 rounded-full ${color} flex-shrink-0`} />
+      <div>
         <span className="text-[11px] text-gray-200 font-mono">{name}</span>
-        <span className="text-[10px] text-gray-500 font-mono">{level}%</span>
+        <p className="text-[9px] text-gray-600 hidden group-hover:block">{desc}</p>
       </div>
-      <div className="w-full bg-gray-800 h-2 rounded-sm overflow-hidden">
-        <div className={`h-full rounded-sm transition-all duration-1000 ease-out ${color}`} style={{ width: `${width}%` }} />
-      </div>
-      <p className="text-[9px] text-gray-600 mt-0.5 hidden group-hover:block">{desc}</p>
     </div>
   );
 }
 
 export default function SystemMonitor({ isMaximized, toggleMax, minimize, close, zIndex, onFocus }) {
   const nodeRef = useRef(null);
-  const [activeTab, setActiveTab] = useState('skills');
   const [selectedCert, setSelectedCert] = useState(null);
 
   return (
@@ -190,73 +180,54 @@ export default function SystemMonitor({ isMaximized, toggleMax, minimize, close,
             </div>
           </div>
 
-          {/* TABS */}
-          <div className="flex border-b border-white/10 bg-[#141517]">
-            <button onClick={() => setActiveTab('skills')}
-              className={`px-6 py-2 text-[11px] font-mono font-bold uppercase tracking-widest transition-all border-b-2
-                ${activeTab === 'skills' ? 'border-orange-500 text-orange-400' : 'border-transparent text-gray-600 hover:text-gray-400'}`}>
-              ⚡ Tech Stack
-            </button>
-            <button onClick={() => setActiveTab('certs')}
-              className={`px-6 py-2 text-[11px] font-mono font-bold uppercase tracking-widest transition-all border-b-2
-                ${activeTab === 'certs' ? 'border-orange-500 text-orange-400' : 'border-transparent text-gray-600 hover:text-gray-400'}`}>
-              🏆 Certificates ({certificates.length})
-            </button>
-          </div>
-
           {/* CONTENT */}
-          <div className="flex-1 overflow-hidden">
+          <div className="flex-1 overflow-y-auto custom-scroll p-4 md:p-6">
 
-            {/* SKILLS TAB */}
-            {activeTab === 'skills' && (
-              <div className="h-full overflow-y-auto p-4 md:p-6 custom-scroll">
-                <div className="font-mono text-[10px] text-gray-600 mb-4 space-y-0.5">
-                  <p><span className="text-green-400">●</span> PID: muhajir_amrullah | STATUS: actively_learning | UPTIME: 21yrs</p>
-                  <p><span className="text-blue-400">●</span> LOAD: frontend[HIGH] cybersec[MEDIUM] design[HIGH]</p>
+            {/* TECH STACK */}
+            <div className="font-mono text-[10px] text-gray-600 mb-4 space-y-0.5">
+              <p><span className="text-green-400">●</span> PID: muhajir_amrullah | STATUS: actively_learning | UPTIME: 21yrs</p>
+              <p><span className="text-blue-400">●</span> LOAD: frontend[HIGH] cybersec[MEDIUM] design[HIGH]</p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {skills.map((cat) => (
+                <div key={cat.category} className={`bg-[#0d0e10] rounded-lg p-4 border ${cat.borderColor}`}>
+                  <p className={`text-[10px] font-bold uppercase tracking-widest mb-2 font-mono ${cat.textColor}`}>▶ {cat.category}</p>
+                  <div>
+                    {cat.items.map((skill) => (
+                      <SkillItem key={skill.name} name={skill.name} desc={skill.desc} color={cat.color} />
+                    ))}
+                  </div>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {skills.map((cat) => (
-                    <div key={cat.category} className={`bg-[#0d0e10] rounded-lg p-4 border ${cat.borderColor}`}>
-                      <p className={`text-[10px] font-bold uppercase tracking-widest mb-3 font-mono ${cat.textColor}`}>▶ {cat.category}</p>
-                      <div className="space-y-3">
-                        {cat.items.map((skill) => (
-                          <SkillBar key={skill.name} name={skill.name} level={skill.level} desc={skill.desc} color={cat.color} />
-                        ))}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-                <p className="text-[9px] text-gray-700 font-mono text-center mt-4">* hover skill bar for details · percentages based on hands-on experience</p>
-              </div>
-            )}
+              ))}
+            </div>
 
-            {/* CERTS TAB */}
-            {activeTab === 'certs' && (
-              <div className="h-full overflow-y-auto p-4 md:p-6 custom-scroll">
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-                  {certificates.map((cert) => (
-                    <div key={cert.id} onClick={() => setSelectedCert(cert)}
-                      className="group cursor-pointer bg-[#0d0e10] border border-white/5 rounded-lg overflow-hidden hover:border-orange-500/40 transition-all duration-200 hover:scale-[1.02]">
-                      <div className="aspect-[4/3] overflow-hidden bg-gray-900 relative">
-                        <img src={cert.img} alt={cert.name}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                          onError={(e) => { e.target.style.display = 'none'; e.target.nextSibling.style.display = 'flex'; }}
-                        />
-                        <div className="hidden w-full h-full items-center justify-center text-3xl bg-gray-900">🏆</div>
-                        {cert.verified && (
-                          <div className="absolute top-1 right-1 bg-green-500 text-black text-[8px] font-bold px-1.5 py-0.5 rounded-full">✓ VERIFIED</div>
-                        )}
-                      </div>
-                      <div className="p-2">
-                        <p className="text-[10px] font-bold text-white leading-tight">{cert.name}</p>
-                        <p className="text-[9px] text-gray-500 mt-0.5">{cert.issuer}</p>
-                        <p className="text-[9px] text-orange-400 font-mono mt-0.5">{cert.year}</p>
-                      </div>
-                    </div>
-                  ))}
+            {/* DIVIDER */}
+            <div className="border-t border-white/10 my-6" />
+
+            {/* CERTIFICATES */}
+            <p className="text-[10px] font-bold uppercase tracking-widest mb-4 font-mono text-orange-400">🏆 Certificates ({certificates.length})</p>
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+              {certificates.map((cert) => (
+                <div key={cert.id} onClick={() => setSelectedCert(cert)}
+                  className="group cursor-pointer bg-[#0d0e10] border border-white/5 rounded-lg overflow-hidden hover:border-orange-500/40 transition-all duration-200 hover:scale-[1.02]">
+                  <div className="aspect-[4/3] overflow-hidden bg-gray-900 relative">
+                    <img src={cert.img} alt={cert.name}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      onError={(e) => { e.target.style.display = 'none'; e.target.nextSibling.style.display = 'flex'; }}
+                    />
+                    <div className="hidden w-full h-full items-center justify-center text-3xl bg-gray-900">🏆</div>
+                    {cert.verified && (
+                      <div className="absolute top-1 right-1 bg-green-500 text-black text-[8px] font-bold px-1.5 py-0.5 rounded-full">✓ VERIFIED</div>
+                    )}
+                  </div>
+                  <div className="p-2">
+                    <p className="text-[10px] font-bold text-white leading-tight">{cert.name}</p>
+                    <p className="text-[9px] text-gray-500 mt-0.5">{cert.issuer}</p>
+                    <p className="text-[9px] text-orange-400 font-mono mt-0.5">{cert.year}</p>
+                  </div>
                 </div>
-              </div>
-            )}
+              ))}
+            </div>
           </div>
 
           {/* BOTTOM BAR */}
