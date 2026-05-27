@@ -106,7 +106,7 @@ const projects = [
     name: "Mobile Apllication - Focusly",
     category: "Mobile",
     tech: ["Flutter, sqlite, dart, Figma"],
-    desc: "",
+    desc: "", 
     thumbnail: "/img/Focusly.png",
     demo: "https://github.com/pittkajull/focusly.git",
     github: "https://github.com/pittkajull/focusly.git",
